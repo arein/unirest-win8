@@ -23,7 +23,7 @@ namespace unirest_rt.request
 
         public Dictionary<String, String> Headers { get; protected set; }
 
-        public MultipartContent Body { get; private set; }
+        public HttpContent Body { get; private set; }
 
         // Should add overload that takes URL object
         public HttpRequest(HttpMethod method, string url)
@@ -48,7 +48,6 @@ namespace unirest_rt.request
             URL = locurl;
             HttpMethod = method;
             Headers = new Dictionary<string, string>();
-            Body = new MultipartContent();
         }
 
         public HttpRequest header(string name, string value)
@@ -82,7 +81,8 @@ namespace unirest_rt.request
                 throw new InvalidOperationException("Can't add fields to a request with an explicit body");
             }
 
-            Body.Add(new FormUrlEncodedContent(new Dictionary<string, string> { { name, value } }));
+            Body = new MultipartContent();
+            ((MultipartContent)Body).Add(new FormUrlEncodedContent(new Dictionary<string, string> { { name, value } }));
             hasFields = true;
             return this;
         }
@@ -99,7 +99,8 @@ namespace unirest_rt.request
                 throw new InvalidOperationException("Can't add fields to a request with an explicit body");
             }
 
-            Body.Add(new StreamContent(value));
+            if (Body == null) Body = new MultipartContent();
+            ((MultipartContent)Body).Add(new StreamContent(value));
             hasFields = true;
             return this;
         }
@@ -116,11 +117,12 @@ namespace unirest_rt.request
                 throw new InvalidOperationException("Can't add fields to a request with an explicit body");
             }
 
-            Body.Add(new FormUrlEncodedContent(parameters.Where(kv => kv.Value is String).Select(kv => new KeyValuePair<string, string>(kv.Key, kv.Value as String))));
+            Body = new MultipartContent();
+            ((MultipartContent)Body).Add(new FormUrlEncodedContent(parameters.Where(kv => kv.Value is String).Select(kv => new KeyValuePair<string, string>(kv.Key, kv.Value as String))));
 
             foreach (var stream in parameters.Where(kv => kv.Value is Stream).Select(kv => kv.Value))
             {
-                Body.Add(new StreamContent(stream as Stream));
+                ((MultipartContent)Body).Add(new StreamContent(stream as Stream));
             }
 
             hasFields = true;
@@ -139,7 +141,7 @@ namespace unirest_rt.request
                 throw new InvalidOperationException("Can't add explicit body to request with fields");
             }
 
-            Body = new MultipartContent { new StringContent(body) };
+            Body = new StringContent(body);
             hasExplicitBody = true;
             return this;
         }
@@ -156,8 +158,8 @@ namespace unirest_rt.request
                 throw new InvalidOperationException("Can't add explicit body to request with fields");
             }
 
-            
-            Body = new MultipartContent { new StringContent(JsonConvert.SerializeObject(body)) };
+
+            Body = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
             hasExplicitBody = true;
             return this;
         }

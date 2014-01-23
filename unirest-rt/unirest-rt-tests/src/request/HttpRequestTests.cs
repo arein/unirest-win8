@@ -397,10 +397,17 @@ namespace unicorn_net_tests.request
             Patch.field("key", "value");
             Put.field("key", "value");
 
-            Post.Body.Should().NotBeEmpty();
-            Delete.Body.Should().NotBeEmpty();
-            Patch.Body.Should().NotBeEmpty();
-            Put.Body.Should().NotBeEmpty();
+            var PostBody = Post.Body.ReadAsStringAsync();
+            var DeleteBody = Delete.Body.ReadAsStringAsync();
+            var PatchBody = Patch.Body.ReadAsStringAsync();
+            var PutBody = Put.Body.ReadAsStringAsync();
+
+            Task.WaitAll(PostBody, DeleteBody, PatchBody, PutBody);
+
+            PostBody.Result.Should().NotBeEmpty();
+            DeleteBody.Result.Should().NotBeEmpty();
+            PatchBody.Result.Should().NotBeEmpty();
+            PutBody.Result.Should().NotBeEmpty();
         }
 
         [TestMethod]
@@ -418,10 +425,17 @@ namespace unicorn_net_tests.request
             Patch.field(stream);
             Put.field(stream);
 
-            Post.Body.Should().NotBeEmpty();
-            Delete.Body.Should().NotBeEmpty();
-            Patch.Body.Should().NotBeEmpty();
-            Put.Body.Should().NotBeEmpty();
+            var PostBody = Post.Body.ReadAsStringAsync();
+            var DeleteBody = Delete.Body.ReadAsStringAsync();
+            var PatchBody = Patch.Body.ReadAsStringAsync();
+            var PutBody = Put.Body.ReadAsStringAsync();
+
+            Task.WaitAll(PostBody, DeleteBody, PatchBody, PutBody);
+
+            PostBody.Result.Should().NotBeEmpty();
+            DeleteBody.Result.Should().NotBeEmpty();
+            PatchBody.Result.Should().NotBeEmpty();
+            PutBody.Result.Should().NotBeEmpty();
         }
 
         [TestMethod]
@@ -444,10 +458,17 @@ namespace unicorn_net_tests.request
             Patch.fields(dict);
             Put.fields(dict);
 
-            Post.Body.Should().NotBeEmpty();
-            Delete.Body.Should().NotBeEmpty();
-            Patch.Body.Should().NotBeEmpty();
-            Put.Body.Should().NotBeEmpty();
+            var PostBody = Post.Body.ReadAsStringAsync();
+            var DeleteBody = Delete.Body.ReadAsStringAsync();
+            var PatchBody = Patch.Body.ReadAsStringAsync();
+            var PutBody = Put.Body.ReadAsStringAsync();
+
+            Task.WaitAll(PostBody, DeleteBody, PatchBody, PutBody);
+
+            PostBody.Result.Should().NotBeEmpty();
+            DeleteBody.Result.Should().NotBeEmpty();
+            PatchBody.Result.Should().NotBeEmpty();
+            PutBody.Result.Should().NotBeEmpty();
         }
 
         [TestMethod]
@@ -463,10 +484,17 @@ namespace unicorn_net_tests.request
             Patch.body("test");
             Put.body("test");
 
-            Post.Body.Should().NotBeEmpty();
-            Delete.Body.Should().NotBeEmpty();
-            Patch.Body.Should().NotBeEmpty();
-            Put.Body.Should().NotBeEmpty();
+            var PostBody = Post.Body.ReadAsStringAsync();
+            var DeleteBody = Delete.Body.ReadAsStringAsync();
+            var PatchBody = Patch.Body.ReadAsStringAsync();
+            var PutBody = Put.Body.ReadAsStringAsync();
+
+            Task.WaitAll(PostBody, DeleteBody, PatchBody, PutBody);
+
+            PostBody.Result.Should().NotBeEmpty();
+            DeleteBody.Result.Should().NotBeEmpty();
+            PatchBody.Result.Should().NotBeEmpty();
+            PutBody.Result.Should().NotBeEmpty();
         }
 
         [TestMethod]
@@ -482,10 +510,17 @@ namespace unicorn_net_tests.request
             Patch.body(new List<int> { 1, 2, 3 });
             Put.body(new List<int> { 1, 2, 3 });
 
-            Post.Body.Should().NotBeEmpty();
-            Delete.Body.Should().NotBeEmpty();
-            Patch.Body.Should().NotBeEmpty();
-            Put.Body.Should().NotBeEmpty();
+            var PostBody = Post.Body.ReadAsStringAsync();
+            var DeleteBody = Delete.Body.ReadAsStringAsync();
+            var PatchBody = Patch.Body.ReadAsStringAsync();
+            var PutBody = Put.Body.ReadAsStringAsync();
+
+            Task.WaitAll(PostBody, DeleteBody, PatchBody, PutBody);
+
+            PostBody.Result.Should().NotBeEmpty();
+            DeleteBody.Result.Should().NotBeEmpty();
+            PatchBody.Result.Should().NotBeEmpty();
+            PutBody.Result.Should().NotBeEmpty();
         }
 
         [TestMethod]

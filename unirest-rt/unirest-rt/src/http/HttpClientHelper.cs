@@ -29,10 +29,10 @@ namespace unirest_rt.http
         {
             var responseTask = RequestHelper(request);
             return Task<HttpResponse<T>>.Factory.StartNew(() =>
-                {
-                    Task.WaitAll(responseTask);
-                    return new HttpResponse<T>(responseTask.Result);
-                });
+            {
+                Task.WaitAll(responseTask);
+                return new HttpResponse<T>(responseTask.Result);
+            });
         }
 
         private static Task<HttpResponseMessage> RequestHelper(HttpRequest request)
@@ -50,7 +50,7 @@ namespace unirest_rt.http
                 msg.Headers.Add(header.Key, header.Value);
             }
 
-            if (request.Body.Any())
+            if ((!(request.Body is MultipartContent) || ((MultipartContent)request.Body).Any()))
             {
                 msg.Content = request.Body;
             }
